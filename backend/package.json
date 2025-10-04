@@ -6,12 +6,17 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon -r dotenv/config --experimental-json-modules server.js"
   },
   "author": "Rishav Ranjan",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.0"
   }
 }
