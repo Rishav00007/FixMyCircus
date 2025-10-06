@@ -1,8 +1,8 @@
-import Complaint from "../models/Complaint";
-import User from "../models/User";
+import Complaint from "../models/Complaint.js";
+import User from "../models/User.js";
 import asyncHandler from 'express-async-handler';
 import fs from 'fs';
-import { uploadOnCLoudinary } from "../config/cloudinaryConfig";
+import { uploadOnCLoudinary } from "../config/cloudinaryConfig.js";
 
 export const createComplaint = asyncHandler( async(req,res)=>{
    const {type , description , latitude , longitude, address} = req.body;
