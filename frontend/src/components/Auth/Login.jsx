@@ -62,7 +62,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await authService.login({ email, password });
+      const { data } = await authService.login(email, password);
       loginUser(data.user, data.token);
       navigate("/dashboard");
     } catch (error) {

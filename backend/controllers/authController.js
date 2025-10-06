@@ -50,12 +50,15 @@ export const login = async (req, res) => {
         .json({ message: "Please provide email and password" });
     }
     //check if the user exists
-    const user = await User.findOne({ email });
+    // NEW ✅
+  const user = await User.findOne({ email }).select('+password');
+    console.log("Mai");
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     //compare hashed and user password
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log("agar");
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -75,7 +78,9 @@ export const login = async (req, res) => {
         role: user.role,
       },
     });
-  } catch (error) {
+  } 
+  catch (error) {
+    console.log("kahu");
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

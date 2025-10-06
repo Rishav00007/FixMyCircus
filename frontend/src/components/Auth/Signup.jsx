@@ -57,7 +57,7 @@ import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService.js";
 
 const Signup = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "", role: "citizen", message: ""});
+  const [form, setForm] = useState({ name: "", email: "", password: "", role: "citizen"});
   const navigate = useNavigate();
 
   const handleChange = (e) => {
