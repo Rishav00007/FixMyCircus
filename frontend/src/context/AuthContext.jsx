@@ -4,17 +4,25 @@ import API from "../services/api.js";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  // ✅ Restore user from localStorage if available
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
+  // ✅ Keep localStorage in sync with token and user
   useEffect(() => {
-    if (token) {
+    if (token && user) {
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user)); // store user persistently
     } else {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       setUser(null);
     }
-  }, [token]);
+  }, [token, user]);
 
   const loginUser = (userData, token) => {
     setUser(userData);
@@ -34,9 +42,9 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
-    return context;
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };
