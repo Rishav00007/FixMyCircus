@@ -20,6 +20,10 @@ import ComplaintDetails from "../components/Complaints/ComplaintDetails.jsx";
 import Navbar from "../components/Shared/Navbar.jsx";
 import Sidebar from "../components/Shared/Sidebar.jsx";
 
+import ReportPage from "../components/Reports/ReportPage.jsx";
+import ReportExport from "../components/Reports/ReportExport.jsx";
+import ReportDetails from "../components/Reports/ReportDetails.jsx";
+
 import { useAuth } from "../context/AuthContext.jsx";
 
 const AppRouter = () => {
@@ -86,6 +90,14 @@ const AppRouter = () => {
                   element={<ComplaintList type="admin" />}
                 />
                 <Route path="/complaints/:id" element={<ComplaintDetails />} />
+              </>
+            )}
+
+            {user && (user.role === "admin" || user.role === "citizen") && (
+              <>
+                <Route path="/reports" element={<ReportPage />} />
+                <Route path="/reports/new" element={<ReportExport />} />
+                <Route path="/reports/:id" element={<ReportDetails />} />
               </>
             )}
 

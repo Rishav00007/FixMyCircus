@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import "./Sidebar.css";
 
+
 const Sidebar = () => {
   const { user, logoutUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -22,17 +23,19 @@ const Sidebar = () => {
 
   const role = user?.role || "citizen";
 
+  
+
   const navLinks = {
     citizen: [
-      { to: "/citizen-dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { to: "/reports", label: "Reports", icon: FileText },
     ],
     staff: [
-      { to: "/staff-dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { to: "/assigned-complaints", label: "My Complaints", icon: FileText },
     ],
     admin: [
-      { to: "/admin-dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { to: "/manage-staff", label: "Staff", icon: Users },
       { to: "/analytics", label: "Analytics", icon: Map },
       { to: "/reports", label: "Reports", icon: FileText },
