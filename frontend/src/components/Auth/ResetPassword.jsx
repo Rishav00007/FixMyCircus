@@ -48,8 +48,6 @@
 
 // export default ResetPassword;
 
-
-
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import authService from "../../services/authService.js";
@@ -57,42 +55,48 @@ import authService from "../../services/authService.js";
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const { token } = useParams();
   const navigate = useNavigate();
 
   const handleReset = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setError("");
     try {
       const { data } = await authService.resetPassword(token, password);
       setMessage(data.message || "Password reset successful!");
+      // Redirect to login after 1.5 seconds
       setTimeout(() => navigate("/login"), 1500);
-    } catch {
-      setMessage("Error resetting password!");
+    } catch (err) {
+      setError(err.response?.data?.message || "Error resetting password!");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-white">
-      <div className="glassmorphism p-8 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-blue-700 text-center mb-6">Reset Password</h2>
-        <form onSubmit={handleReset} className="space-y-4">
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2 className="auth-title">Reset Password</h2>
+        <form className="auth-form" onSubmit={handleReset}>
           <input
             type="password"
             placeholder="Enter new password"
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            className="auth-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+          <button type="submit" className="auth-button">
             Reset Password
           </button>
         </form>
-        {message && <p className="text-center text-sm text-green-600 mt-3">{message}</p>}
+        {message && (
+          <p className="text-green-600 mt-3 text-center">{message}</p>
+        )}
+        {error && <p className="text-red-600 mt-3 text-center">{error}</p>}
       </div>
     </div>
   );
 };
 
 export default ResetPassword;
-

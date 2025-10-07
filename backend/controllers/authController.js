@@ -51,7 +51,7 @@ export const login = async (req, res) => {
     }
     //check if the user exists
     // NEW ✅
-  const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select("+password");
     console.log("Mai");
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -78,8 +78,7 @@ export const login = async (req, res) => {
         role: user.role,
       },
     });
-  } 
-  catch (error) {
+  } catch (error) {
     console.log("kahu");
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -104,9 +103,7 @@ export const forgotPassword = async (req, res) => {
     user.passwordResetExpires = Date.now() + 3600000;
     await user.save();
     //generate resetUrl
-    const resetURL = `${req.protocol}://${req.get(
-      "host"
-    )}/api/auth/reset-password/${resetToken}`;
+    const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
 
     const message = `You requested a password reset. Click here to reset: ${resetURL} \nIf you didn't request this, ignore this email.`;
     //sending email with message and URL
