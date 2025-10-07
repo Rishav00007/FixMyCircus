@@ -1,0 +1,45 @@
+.admin-dashboard {
+  padding: 120px 20px 40px 270px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 120px); 
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937; 
+}
+
+.export-btn {
+  background-color: #16a34a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.export-btn:hover {
+  background-color: #15803d;
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 100px 20px 40px 20px; 
+  }
+  .admin-header {
+    justify-content: center;
+  }
+}

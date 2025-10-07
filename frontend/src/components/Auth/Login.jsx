@@ -47,11 +47,11 @@
 
 // export default Login;
 
-
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { useNavigate, Link } from "react-router-dom";
 import authService from "../../services/authService.js";
+import "./Auth.css";
 
 const Login = () => {
   const { loginUser } = useContext(AuthContext);
@@ -71,14 +71,14 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-white">
-      <div className="glassmorphism p-8 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-blue-700 text-center mb-6">Login</h2>
-        <form onSubmit={handleLogin} className="space-y-4">
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2 className="auth-title">Login</h2>
+        <form onSubmit={handleLogin} className="auth-form">
           <input
             type="email"
             placeholder="Email"
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            className="auth-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -86,22 +86,22 @@ const Login = () => {
           <input
             type="password"
             placeholder="Password"
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            className="auth-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+          <button type="submit" className="auth-button">
             Login
           </button>
         </form>
-        <div className="mt-4 text-center text-sm">
-          <Link to="/forgot-password" className="text-blue-600 hover:underline">
+        <div className="auth-links">
+          <Link to="/forgot-password" className="auth-link">
             Forgot Password?
           </Link>
-          <p className="mt-2">
+          <p>
             Don't have an account?{" "}
-            <Link to="/signup" className="text-blue-600 hover:underline">
+            <Link to="/signup" className="auth-link">
               Sign up
             </Link>
           </p>
@@ -112,4 +112,3 @@ const Login = () => {
 };
 
 export default Login;
-

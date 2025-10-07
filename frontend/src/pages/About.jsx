@@ -1,15 +1,21 @@
 import React from "react";
+import "./Pages.css";
 
-const About = () => {
+export default function About() {
   return (
-    <div className="container mx-auto mt-28 px-6">
-      <h2 className="text-3xl font-bold text-blue-700 mb-4">About Us</h2>
-      <p className="text-gray-700 leading-relaxed">
-        The Caravan Chronicle is a grievance management platform designed for the Circus of Wonders —
-        a traveling city. It enables citizens, staff, and admins to submit, manage, and track complaints in real time.
+    <div className="page-container">
+      <h1 className="page-title">About The Caravan Chronicle</h1>
+      <p className="page-description">
+        The Caravan Chronicle is a smart grievance tracking system designed to
+        make urban management seamless and efficient. Citizens can report
+        issues, track their status, and ensure timely resolution. Staff and
+        administrators can efficiently manage complaints, assign tasks, and
+        analyze trends for better decision-making.
+      </p>
+      <p className="page-description">
+        Our mission is to keep the city functioning smoothly, empower citizens,
+        and make public service transparent and accountable.
       </p>
     </div>
   );
-};
-
-export default About;
+}

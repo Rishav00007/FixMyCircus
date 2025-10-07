@@ -1,15 +1,16 @@
 import React from "react";
 import ComplaintList from "../Complaints/ComplaintList";
 import reportService from "../../services/reportService";
+import "./AdminDashboard.css";
 
 export default function AdminDashboard() {
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold">All Complaints</h1>
+    <div className="admin-dashboard">
+      <div className="admin-header">
+        <h1 className="admin-title">All Complaints</h1>
         <button
           onClick={reportService.exportComplaintsCSV}
-          className="bg-green-600 text-white px-4 py-2 rounded-md"
+          className="export-btn"
         >
           Export Report
         </button>

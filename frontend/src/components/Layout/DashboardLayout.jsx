@@ -8,7 +8,6 @@ const DashboardLayout = ({ children }) => {
     <div className="flex min-h-screen">
       <Sidebar />
       <div className="flex flex-col flex-grow">
-        <Navbar />
         <main className="flex-grow bg-gray-50 p-6">{children}</main>
         <Footer />
       </div>

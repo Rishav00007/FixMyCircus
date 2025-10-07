@@ -1,4 +1,3 @@
-// frontend/src/components/Shared/Sidebar.jsx
 import { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext.jsx";
@@ -10,6 +9,7 @@ import {
   LogOut,
   Home,
 } from "lucide-react";
+import "./Sidebar.css";
 
 const Sidebar = () => {
   const { user, logoutUser } = useContext(AuthContext);
@@ -20,9 +20,8 @@ const Sidebar = () => {
     navigate("/login");
   };
 
-  const role = user?.role || "citizen"; // default fallback
+  const role = user?.role || "citizen";
 
-  // Role-based navigation
   const navLinks = {
     citizen: [
       { to: "/citizen-dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -43,59 +42,23 @@ const Sidebar = () => {
   const links = navLinks[role] || [];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-screen bg-gradient-to-b from-blue-800 to-blue-600 text-white shadow-xl">
-      {/* Logo Section */}
-      <div className="flex items-center justify-center h-20 border-b border-blue-500">
-        <h1 className="text-2xl font-extrabold tracking-wide">
-          Caravan Chronicle
-        </h1>
-      </div>
-
-      {/* Navigation Section */}
-      <nav className="flex-grow p-4 space-y-2">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-              isActive
-                ? "bg-white text-blue-700 shadow-md"
-                : "hover:bg-blue-700/30"
-            }`
-          }
-        >
-          <Home className="w-5 h-5" />
-          <span>Home</span>
+    <aside className="sidebar">
+      <nav className="sidebar-nav">
+        <NavLink to="/" className="sidebar-link">
+          <Home className="icon" /> Home
         </NavLink>
-
         {links.map(({ to, label, icon: Icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                isActive
-                  ? "bg-white text-blue-700 shadow-md"
-                  : "hover:bg-blue-700/30"
-              }`
-            }
-          >
-            <Icon className="w-5 h-5" />
-            <span>{label}</span>
+          <NavLink key={to} to={to} className="sidebar-link">
+            <Icon className="icon" /> {label}
           </NavLink>
         ))}
       </nav>
-
-      {/* Footer / Logout */}
-      <div className="border-t border-blue-500 p-4">
-        <button
-          onClick={handleLogout}
-          className="flex items-center justify-center gap-2 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-xl transition"
-        >
-          <LogOut className="w-5 h-5" />
-          Logout
+      <div className="sidebar-footer">
+        <button onClick={handleLogout} className="logout-btn">
+          <LogOut className="icon" /> Logout
         </button>
-        <p className="text-xs text-center text-blue-200 mt-2">
-          Logged in as: <span className="font-semibold">{role}</span>
+        <p>
+          Logged in as: <strong>{role}</strong>
         </p>
       </div>
     </aside>

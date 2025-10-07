@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import complaintService from "../../services/complaintService.js";
 import { useAuth } from "../../context/AuthContext.jsx";
+import "./ComplaintDetails.css";
 
 export default function ComplaintDetails() {
   const { id } = useParams();
@@ -29,50 +30,62 @@ export default function ComplaintDetails() {
   if (!complaint) return <p>Loading complaint...</p>;
 
   return (
-    <div className="max-w-3xl mx-auto bg-white shadow-md p-6 rounded-xl">
-      <h2 className="text-2xl font-bold mb-2">{complaint.type}</h2>
-      <p className="text-gray-700 mb-4">{complaint.description}</p>
-
+    <div className="complaint-details-page">
       {complaint.photo && (
         <img
           src={complaint.photo}
           alt="Complaint"
-          className="rounded-lg mb-4 w-full h-64 object-cover"
+          className="complaint-details-photo"
         />
       )}
+      <div className="complaint-details-info">
+        <h2 className="complaint-details-type">{complaint.type}</h2>
+        <span className={`status-badge ${complaint.status.toLowerCase()}`}>
+          {complaint.status}
+        </span>
+        <p className="complaint-details-desc">{complaint.description}</p>
 
-      <p>
-        <strong>Status:</strong> {complaint.status}
-      </p>
-      <p>
-        <strong>Address:</strong> {complaint.location?.address}
-      </p>
+        {complaint.location?.address && (
+          <p className="complaint-details-location">
+            📍 {complaint.location.address}
+          </p>
+        )}
 
-      {user.role !== "citizen" && (
-        <div className="mt-4">
-          <textarea
-            placeholder="Add resolution note"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            className="border rounded-md w-full p-2 mb-2"
-          ></textarea>
+        <p className="complaint-details-date">
+          Submitted on: {new Date(complaint.createdAt).toLocaleString()}
+        </p>
 
-          <div className="flex gap-3">
-            <button
-              onClick={() => handleStatusChange("IN_PROGRESS")}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md"
-            >
-              Mark In Progress
-            </button>
-            <button
-              onClick={() => handleStatusChange("RESOLVED")}
-              className="bg-green-600 text-white px-4 py-2 rounded-md"
-            >
-              Mark Resolved
-            </button>
+        {user.role !== "citizen" && (
+          <div className="complaint-resolution-section">
+            <textarea
+              placeholder="Add resolution note"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              className="complaint-resolution-note"
+            />
+            <div className="complaint-resolution-buttons">
+              <button
+                onClick={() => handleStatusChange("IN_PROGRESS")}
+                className="btn-in-progress"
+              >
+                Mark In Progress
+              </button>
+              <button
+                onClick={() => handleStatusChange("RESOLVED")}
+                className="btn-resolved"
+              >
+                Mark Resolved
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {complaint.resolutionNote && (
+          <p className="complaint-resolution-text">
+            <strong>Resolution Note:</strong> {complaint.resolutionNote}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

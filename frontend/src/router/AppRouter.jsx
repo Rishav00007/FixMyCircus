@@ -23,71 +23,77 @@ import Sidebar from "../components/Shared/Sidebar.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const AppRouter = () => {
-    const { user } = useAuth();
-    const getDashboard = () => {
-        if (!user) return <Navigate to="/login" />;
-        switch (user.role) {
-        case "citizen":
-            return <CitizenDashboard />;
-        case "staff":
-            return <StaffDashboard />;
-        case "admin":
-            return <AdminDashboard />;
-        default:
-            return <Navigate to="/login" />;
-        }
-    };
+  const { user } = useAuth();
+  const getDashboard = () => {
+    if (!user) return <Navigate to="/login" />;
+    switch (user.role) {
+      case "citizen":
+        return <CitizenDashboard />;
+      case "staff":
+        return <StaffDashboard />;
+      case "admin":
+        return <AdminDashboard />;
+      default:
+        return <Navigate to="/login" />;
+    }
+  };
 
   return (
     <div>
-        {user && <Navbar />}
-        <div className="flex min-h-screen bg-gray-50">
+      {user && <Navbar />}
+      <div className="flex min-h-screen bg-gray-50">
         {user && <Sidebar role={user.role} />}
         <div className="flex-1 p-4 md:p-6">
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password/:token" element={<ResetPassword />} />
-                {/* Role-Based Dashboards */}
-                <Route path="/dashboard" element={getDashboard()} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
+            {/* Role-Based Dashboards */}
+            <Route path="/dashboard" element={getDashboard()} />
 
-                {/* Citizen Routes */}
-                {user?.role === "citizen" && (
-                <>
-                    <Route path="/complaints/new" element={<ComplaintForm />} />
-                    <Route path="/complaints" element={<ComplaintList type="citizen" />} />
-                    <Route path="/complaints/:id" element={<ComplaintDetails />} />
-                </>
-                )}
+            {/* Citizen Routes */}
+            {user?.role === "citizen" && (
+              <>
+                <Route path="/complaints/new" element={<ComplaintForm />} />
+                <Route
+                  path="/complaints"
+                  element={<ComplaintList type="citizen" />}
+                />
+                <Route path="/complaints/:id" element={<ComplaintDetails />} />
+              </>
+            )}
 
-                {/* Staff Routes */}
-                {user?.role === "staff" && (
-                <>
-                    <Route path="/assigned-complaints" element={<ComplaintList type="staff" />} />
-                    <Route path="/complaints/:id" element={<ComplaintDetails />} />
-                </>
-                )}
+            {/* Staff Routes */}
+            {user?.role === "staff" && (
+              <>
+                <Route
+                  path="/assigned-complaints"
+                  element={<ComplaintList type="staff" />}
+                />
+                <Route path="/complaints/:id" element={<ComplaintDetails />} />
+              </>
+            )}
 
-                {/* Admin Routes */}
-                {user?.role === "admin" && (
-                <>
-                    <Route path="/all-complaints" element={<ComplaintList type="admin" />} />
-                    <Route path="/complaints/:id" element={<ComplaintDetails />} />
-                </>
-                )}
-                
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+            {/* Admin Routes */}
+            {user?.role === "admin" && (
+              <>
+                <Route
+                  path="/all-complaints"
+                  element={<ComplaintList type="admin" />}
+                />
+                <Route path="/complaints/:id" element={<ComplaintDetails />} />
+              </>
+            )}
 
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
-        </div>
-    
+      </div>
     </div>
-    
   );
 };
 

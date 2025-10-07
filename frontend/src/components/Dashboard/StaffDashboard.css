@@ -1,0 +1,26 @@
+.staff-dashboard {
+  padding: 120px 20px 40px 270px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 120px);
+}
+
+.dashboard-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f2937;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .dashboard-title {
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .staff-dashboard {
+    padding: 100px 20px 40px 20px;
+  }
+}

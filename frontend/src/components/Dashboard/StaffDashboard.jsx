@@ -1,10 +1,11 @@
 import React from "react";
 import ComplaintList from "../Complaints/ComplaintList";
+import "./StaffDashboard.css";
 
 export default function StaffDashboard() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-4">Assigned Complaints</h1>
+    <div className="staff-dashboard">
+      <h1 className="dashboard-title">Assigned Complaints</h1>
       <ComplaintList type="staff" />
     </div>
   );

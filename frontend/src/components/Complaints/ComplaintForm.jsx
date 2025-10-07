@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useComplaints } from "../../context/ComplaintContext.jsx";
+import "./ComplaintForm.css";
 
 export default function ComplaintForm() {
-  const { createComplaint } = useComplaints();
-  const [form, setForm] = useState({
-    type: "pathway",
+  const { createComplaint, loading, message } = useComplaints();
+
+  const [formData, setFormData] = useState({
+    type: "",
     description: "",
     latitude: "",
     longitude: "",
@@ -13,75 +15,113 @@ export default function ComplaintForm() {
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleFile = (e) => {
-    setForm({ ...form, photo: e.target.files[0] });
+    const { name, value, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    Object.keys(form).forEach((key) => formData.append(key, form[key]));
-    await createComplaint(formData);
-    alert("Complaint submitted!");
-    setForm({
-      type: "pathway",
-      description: "",
-      latitude: "",
-      longitude: "",
-      address: "",
-      photo: null,
+    const data = new FormData();
+    Object.keys(formData).forEach((key) => {
+      data.append(key, formData[key]);
     });
+    try {
+      await createComplaint(data);
+      alert("Complaint submitted successfully!");
+      setFormData({
+        type: "",
+        description: "",
+        latitude: "",
+        longitude: "",
+        address: "",
+        photo: null,
+      });
+    } catch {
+      alert("Failed to submit complaint");
+    }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-lg mx-auto bg-white p-6 shadow-md rounded-xl"
-    >
-      <h2 className="text-2xl font-semibold mb-4">Submit a Complaint</h2>
-      <label className="block mb-2 font-medium">Type</label>
-      <select
-        name="type"
-        value={form.type}
-        onChange={handleChange}
-        className="border rounded-md w-full mb-3 p-2"
-      >
-        <option value="pathway">Pathway</option>
-        <option value="water">Water</option>
-        <option value="garbage">Garbage</option>
-        <option value="other">Other</option>
-      </select>
+    <div className="complaint-form-container">
+      <h2 className="complaint-form-title">Submit a New Complaint</h2>
+      <form className="complaint-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Complaint Type</label>
+          <select
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            required
+            className="form-select"
+          >
+            <option value="">Select type</option>
+            <option value="pathway">Pathway</option>
+            <option value="water">Water</option>
+            <option value="garbage">Garbage</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
 
-      <label className="block mb-2 font-medium">Description</label>
-      <textarea
-        name="description"
-        value={form.description}
-        onChange={handleChange}
-        className="border rounded-md w-full mb-3 p-2"
-        rows="3"
-      ></textarea>
+        <div className="form-group">
+          <label>Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="4"
+            placeholder="Describe the issue..."
+            required
+          />
+        </div>
 
-      <label className="block mb-2 font-medium">Address</label>
-      <input
-        type="text"
-        name="address"
-        value={form.address}
-        onChange={handleChange}
-        className="border rounded-md w-full mb-3 p-2"
-      />
+        <div className="form-row">
+          <div className="form-group">
+            <label>Latitude</label>
+            <input
+              type="text"
+              name="latitude"
+              value={formData.latitude}
+              onChange={handleChange}
+              placeholder="Latitude"
+            />
+          </div>
+          <div className="form-group">
+            <label>Longitude</label>
+            <input
+              type="text"
+              name="longitude"
+              value={formData.longitude}
+              onChange={handleChange}
+              placeholder="Longitude"
+            />
+          </div>
+        </div>
 
-      <label className="block mb-2 font-medium">Photo (optional)</label>
-      <input type="file" onChange={handleFile} className="mb-3" />
+        <div className="form-group">
+          <label>Address</label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Enter location or address"
+          />
+        </div>
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-      >
-        Submit
-      </button>
-    </form>
+        <div className="form-group">
+          <label>Upload Photo (optional)</label>
+          <input type="file" name="photo" onChange={handleChange} />
+        </div>
+
+        <button className="submit-btn" type="submit" disabled={loading}>
+          {loading ? "Submitting..." : "Submit Complaint"}
+        </button>
+
+        {message && <p className="form-message">{message}</p>}
+      </form>
+    </div>
   );
 }

@@ -1,11 +1,18 @@
 import React from "react";
+import "./Footer.css";
 
 const Footer = () => {
   return (
-    <footer className="mt-16 text-center py-6 bg-blue-50 border-t border-blue-100">
-      <p className="text-sm text-gray-600">
-        © {new Date().getFullYear()} The Caravan Chronicle | All Rights Reserved.
+    <footer className="footer">
+      <p className="footer-text">
+        © {new Date().getFullYear()} The Caravan Chronicle | All Rights
+        Reserved.
       </p>
+      <div className="footer-links">
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy Policy</a>
+      </div>
     </footer>
   );
 };
