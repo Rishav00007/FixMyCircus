@@ -1,0 +1,51 @@
+/* frontend/src/components/Admin/AdminManageStaff.css */
+.admin-manage-staff {
+
+  margin-left: 250px;
+  padding: 2rem;
+  background: #f1f5f9;
+  min-height: 100vh;
+  color: #1e3a8a;
+}
+
+
+.admin-manage-staff h1 {
+  padding-top: 40px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 1.5rem;
+}
+
+.admin-staff-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.admin-staff-table th,
+.admin-staff-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-staff-table th {
+  background-color: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.admin-staff-table tr:hover {
+  background-color: #dbeafe;
+  transform: translateY(-1px);
+}
+
+.department-select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+

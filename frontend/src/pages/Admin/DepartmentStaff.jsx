@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import staffService from "../../services/staffService";
 import complaintService from "../../services/complaintService";
@@ -58,10 +57,11 @@ export default function DepartmentStaff({ department }) {
   };
 
   return (
-    <div className="department-staff">
+    <div className="department-staff-container">
       <h2>{department?.toUpperCase()} Department</h2>
 
       <select
+        className="complaint-select"
         onChange={(e) => setSelectedComplaint(e.target.value)}
         value={selectedComplaint}
       >
@@ -89,7 +89,12 @@ export default function DepartmentStaff({ department }) {
               <td>{s.staffUser?.email}</td>
               <td>{s.assignedComplaints?.length || 0}</td>
               <td>
-                <button onClick={() => handleAssign(s._id)}>Assign</button>
+                <button
+                  className="staff-button"
+                  onClick={() => handleAssign(s._id)}
+                >
+                  Assign
+                </button>
               </td>
             </tr>
           ))}
@@ -98,4 +103,3 @@ export default function DepartmentStaff({ department }) {
     </div>
   );
 }
-

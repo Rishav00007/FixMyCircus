@@ -1,6 +1,5 @@
-
-
 // frontend/src/components/Admin/AdminManageStaff.jsx
+import "./AdminManageStaff.css";
 import React, { useEffect, useState } from "react";
 import staffService from "../../services/staffService.js";
 import "../../components/Dashboard/AdminDashboard.css";
@@ -42,12 +41,12 @@ export default function AdminManageStaff() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="admin-dashboard">
+    <div className="admin-manage-staff">
       <h1>Manage Staff</h1>
       {staffUsers.length === 0 ? (
         <p>All staff have been assigned to departments.</p>
       ) : (
-        <table className="staff-table">
+        <table className="admin-staff-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -62,6 +61,7 @@ export default function AdminManageStaff() {
                 <td>{user.email}</td>
                 <td>
                   <select
+                    className="department-select"
                     onChange={(e) => handleAssign(user._id, e.target.value)}
                     defaultValue=""
                   >
