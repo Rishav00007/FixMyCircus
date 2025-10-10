@@ -22,7 +22,7 @@ export const getUnassignedUsers = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, users: unassignedUsers });
 });
 
-// ✅ Get all staff users (only admin)
+// Get all staff users (only admin)
 export const getAllStaff = asyncHandler(async (req, res) => {
   const staffList = await Staff.find()
     .populate("staffUser", "name email role")
@@ -54,7 +54,7 @@ export const assignDepartment = asyncHandler(async (req, res) => {
 
 
 
-// ✅ Create staff entry if not exists
+// Create staff entry if not exists
 export const registerStaff = asyncHandler(async (req, res) => {
   const { userId, department } = req.body;
 
@@ -77,7 +77,7 @@ export const registerStaff = asyncHandler(async (req, res) => {
   });
 });
 
-// ✅ Get all staff by department
+// Get all staff by department
 export const getStaffByDepartment = asyncHandler(async (req, res) => {
   const { department } = req.params;
   const staffList = await Staff.find({ department })
@@ -87,41 +87,35 @@ export const getStaffByDepartment = asyncHandler(async (req, res) => {
 });
 
 //  Assign complaint to staff
-export const assignComplaintToStaff = async (req, res) => {
-  try {
-    const { staffId, complaintId } = req.body;
+export const assignComplaintToStaff = asyncHandler(async (req, res) => {
+  
+  const { staffId, complaintId } = req.body;
 
-    const staff = await Staff.findById(staffId);
-    const complaint = await Complaint.findById(complaintId);
+  const staff = await Staff.findById(staffId);
+  const complaint = await Complaint.findById(complaintId);
 
-    if (!staff || !complaint) {
-      return res.status(404).json({ message: "Staff or complaint not found" });
-    }
-
-    // Link both sides
-    if (!staff.assignedComplaints.includes(complaintId)) {
-      staff.assignedComplaints.push(complaintId);
-    }
-    complaint.assignedTo = staff.staffUser;
-
-    await staff.save();
-
-    // Update complaint record — mark as assigned and add staff info
-    complaint.assignedTo = staff._id;
-    complaint.status = "assigned";
-    await complaint.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Complaint assigned successfully",
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to assign complaint" });
+  if (!staff || !complaint) {
+    return res.status(404).json({ message: "Staff or complaint not found" });
   }
-};
 
-// ✅ Get all complaints assigned to a staff
+  // Add complaint to staff
+  if (!staff.assignedComplaints.includes(complaintId)) {
+    staff.assignedComplaints.push(complaintId);
+    await staff.save();
+  }
+
+  // Assign complaint to staff (Staff ID)
+  complaint.assignedTo = staff._id;
+  complaint.status = "IN_PROGRESS"; // optional
+  await complaint.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Complaint assigned successfully",
+  });
+});
+
+// Get all complaints assigned to a staff
 export const getAssignedComplaints = asyncHandler(async (req, res) => {
   const staff = await Staff.findOne({ staffUser: req.user._id }).populate({
     path: "assignedComplaints",
