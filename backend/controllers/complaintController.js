@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import asyncHandler from "express-async-handler";
 import fs from "fs";
 import { uploadOnCLoudinary } from "../config/cloudinaryConfig.js";
+import sendEmail from "../utils/sendEmail.js";
 
 export const createComplaint = asyncHandler(async (req, res) => {
   const { type, description, latitude, longitude, address } = req.body;
@@ -60,7 +61,10 @@ export const getMyComplaints = asyncHandler(async (req, res) => {
 export const updateComplaintStatus = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { status, resolutionNote, assignedTo } = req.body;
-  const complaint = await Complaint.findById(id);
+  const complaint = await Complaint.findById(id).populate(
+    "citizen",
+    "name email"
+  );
   if (!complaint) {
     return res.status(404).json({
       message: "Complaint not Found",
@@ -70,13 +74,38 @@ export const updateComplaintStatus = asyncHandler(async (req, res) => {
   if (resolutionNote) complaint.resolutionNote = resolutionNote;
   if (assignedTo) complaint.assignedTo = assignedTo;
   await complaint.save();
+  if (status) {
+    const userEmail = complaint.citizen.email;
+    const subject = `Your Complaint Status Updated`;
+    const text = `Hello ${complaint.citizen.name}, your complaint (${complaint._id}) status has been updated to ${status}.`;
+    const html = `
+      <p>Dear <strong>${complaint.citizen.name}</strong>,</p>
+      <p>The status of your complaint <strong>${complaint._id}</strong> has been updated to:</p>
+      <h3 style="color: #2b6cb0;">${status}</h3>
+      <p><strong>Description:</strong> ${complaint.description}</p>
+      ${
+        resolutionNote
+          ? `<p><strong>Resolution Note:</strong> ${resolutionNote}</p>`
+          : ""
+      }
+      <p>Thank you for your patience.<br/>— Grievance Redressal Team</p>
+    `;
+
+    // Use sendEmail utility
+    try {
+      await sendEmail({ to: userEmail, subject, text, html });
+      console.log(`Complaint update email sent to ${userEmail}`);
+    } catch (err) {
+      console.error("Failed to send status update email:", err.message);
+    }
+  }
+
   return res.status(200).json({
     success: true,
-    message: "Complaint updated Successfully",
+    message: "Complaint updated Successfully & user notified",
     complaint,
   });
 });
-
 export const deleteComplaint = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const complaint = await Complaint.findById(id);
