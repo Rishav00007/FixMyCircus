@@ -38,6 +38,89 @@ export const signup = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+//  Added for OTP system
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+//  Step 1: Send OTP
+export const sendOTP = async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+
+    if (!name || !email || !password)
+      return res
+        .status(400)
+        .json({ message: "Please fill all required fields" });
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
+
+    // Generate OTP
+    const otp = generateOTP();
+
+    // Temporarily store user data in DB until OTP is verified
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes validity
+
+    await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || "citizen",
+      otp,
+      otpExpires,
+      isVerified: false,
+    });
+
+    // Send OTP via email
+    const message = `Your FixMyCircus verification code is: ${otp}`;
+    await sendEmail({
+      to: email,
+      subject: "Email Verification Code",
+      text: message,
+    });
+
+    res.status(200).json({ message: "OTP sent to email successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+//  Step 2: Verify OTP
+export const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(400).json({ message: "User not found" });
+    if (user.isVerified)
+      return res.status(400).json({ message: "User already verified" });
+
+    if (user.otp !== otp)
+      return res.status(400).json({ message: "Invalid OTP" });
+
+    if (user.otpExpires < Date.now())
+      return res.status(400).json({ message: "OTP expired" });
+
+    // Mark user as verified
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Email verified successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 //Login function
 export const login = async (req, res) => {
   try {
@@ -50,7 +133,7 @@ export const login = async (req, res) => {
         .json({ message: "Please provide email and password" });
     }
     //check if the user exists
-    // NEW ✅
+    //
     const user = await User.findOne({ email }).select("+password");
     console.log("Mai");
     if (!user) {
