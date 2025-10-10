@@ -86,7 +86,7 @@ export const getStaffByDepartment = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, staffList });
 });
 
-// ✅ Assign complaint to staff
+//  Assign complaint to staff
 export const assignComplaintToStaff = async (req, res) => {
   try {
     const { staffId, complaintId } = req.body;
