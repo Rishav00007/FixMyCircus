@@ -34,6 +34,7 @@ export default function ComplaintList({ type }) {
           key={c._id}
           complaint={c}
           onClick={(id) => navigate(`/complaints/${id}`)}
+          type={type}
         />
       ))}
     </div>
