@@ -4,16 +4,16 @@ import { useNavigate } from "react-router-dom";
 import ComplaintCard from "./ComplaintCard.jsx";
 import "./ComplaintList.css";
 
-export default function ComplaintList() {
+export default function ComplaintList({ type }) {
+  // ✅ Added 'type' prop
   const { complaints, fetchComplaints, loading } = useComplaints();
   const navigate = useNavigate();
   const [filterType, setFilterType] = useState("");
 
   useEffect(() => {
-    fetchComplaints();
-  }, []);
+    fetchComplaints(type); // ✅ Pass type to fetchComplaints
+  }, [type]);
 
-  // 🔹 Frontend-only filtered list
   const filteredComplaints = filterType
     ? complaints.filter((c) => c.type === filterType)
     : complaints;
@@ -28,10 +28,12 @@ export default function ComplaintList() {
 
   return (
     <div className="complaint-list-wrapper">
-      {/* Filter Dropdown */}
       <div className="filter-bar">
         <label>Filter by Type: </label>
-        <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+        <select
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value)}
+        >
           <option value="">All Types</option>
           <option value="pathway">Pathway</option>
           <option value="water">Water</option>
@@ -40,15 +42,20 @@ export default function ComplaintList() {
         </select>
       </div>
 
-  return (
-    <div className="complaint-list-container">
-      {complaints.map((c) => (
-        <ComplaintCard
-          key={c._id}
-          complaint={c}
-          onClick={(id) => navigate(`/complaints/${id}`)}
-        />
-      ))}
+      <div className="complaint-list-container">
+        {filteredComplaints.length ? (
+          filteredComplaints.map((c) => (
+            <ComplaintCard
+              key={c._id}
+              complaint={c}
+              onClick={() => navigate(`/complaints/${c._id}`)}
+              type={type} // ✅ Pass type so delete button shows for admin
+            />
+          ))
+        ) : (
+          <p>No complaints found.</p>
+        )}
+      </div>
     </div>
   );
 }
