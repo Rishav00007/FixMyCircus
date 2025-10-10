@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useComplaints } from "../../context/ComplaintContext.jsx";
 import "./ComplaintForm.css";
+import ComplaintMapPicker from "./ComplaintMapPicker.jsx";
 
 export default function ComplaintForm() {
   const { createComplaint, loading, message } = useComplaints();
@@ -19,6 +20,15 @@ export default function ComplaintForm() {
     setFormData((prev) => ({
       ...prev,
       [name]: files ? files[0] : value,
+    }));
+  };
+  
+  const handleLocationSelect = (location) => {
+    setFormData((prev) => ({
+      ...prev,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      address: location.address,
     }));
   };
 
@@ -76,6 +86,8 @@ export default function ComplaintForm() {
             required
           />
         </div>
+
+  <ComplaintMapPicker onLocationSelect={handleLocationSelect} />
 
         <div className="form-row">
           <div className="form-group">
