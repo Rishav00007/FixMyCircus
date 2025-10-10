@@ -6,10 +6,13 @@ import {
   updateComplaintStatus,
   deleteComplaint,
   getComplaintById,
+  getUnassignedComplaints,
 } from "../controllers/complaintController.js";
 import { upload } from "../middlewares/multer.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import { authorizeRoles } from "../middlewares/roleMiddleware.js";
+
+
 const router = express.Router();
 
 router.post("/", protect, upload.single("photo"), createComplaint);
@@ -23,5 +26,6 @@ router.put(
 );
 router.delete("/:id", protect, authorizeRoles("admin"), deleteComplaint);
 router.get("/:id", protect, getComplaintById);
+router.get("/unassigned", getUnassignedComplaints);
 
 export default router;

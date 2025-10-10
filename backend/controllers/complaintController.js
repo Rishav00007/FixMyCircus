@@ -96,3 +96,13 @@ export const getComplaintById = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "Complaint not found" });
   res.status(200).json({ success: true, complaint });
 });
+
+
+export const getUnassignedComplaints = async (req, res) => {
+  try {
+    const complaints = await Complaint.find({ assignedTo: null });
+    res.json({ complaints });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to load complaints" });
+  }
+};

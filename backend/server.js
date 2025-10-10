@@ -1,33 +1,3 @@
-// import connectDB from "./config/db.js";
-// import express from "express";
-// import cors from "cors";
-// import dotenv from "dotenv";
-// import complaintRoutes from "./routes/complaintRoutes.js";
-// import reportRoutes from "./routes/reportRoutes.js";
-// dotenv.config({
-//   //must need to config to use dotenv in import format
-//   path: "./env",
-// });
-
-// connectDB();
-
-// const app = express();
-// app.use(express.json());
-// app.use(cors());
-// app.use("/api/complaints",complaintRoutes);
-// app.use("/api/report",reportRoutes);
-// app.get("/api/health", (req, res) => {
-//   res.json({ message: "Server is running" });
-// });
-
-// const PORT = process.env.PORT || 8000;
-// app.listen(PORT, () => {
-//   console.log(`server is running on port ${PORT}`);
-// });
-
-
-
-
 // backend/server.js
 import express from "express";
 import dotenv from "dotenv";
@@ -37,7 +7,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import complaintRoutes from "./routes/complaintRoutes.js";
-//import staffRoutes from "./routes/staffRoutes.js";
+import staffRoutes from "./routes/staffRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
 //import analyticsRoutes from "./routes/analyticsRoutes.js";
 //import publicRoutes from "./routes/publicRoutes.js";
@@ -68,7 +38,7 @@ app.use(
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/complaints", complaintRoutes);
-//app.use("/api/staff", staffRoutes);
+app.use("/api/staff", staffRoutes);
 app.use("/api/reports", reportRoutes);
 //app.use("/api/analytics", analyticsRoutes);
 //app.use("/api/public", publicRoutes);

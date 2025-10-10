@@ -36,7 +36,8 @@ const complaintSchema = new mongoose.Schema({
 
   assignedTo: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // staff reference
+    ref: "Staff",
+    default: null,
   },
 
   priority: {

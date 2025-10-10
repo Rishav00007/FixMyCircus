@@ -23,8 +23,10 @@ import Sidebar from "../components/Shared/Sidebar.jsx";
 import ReportPage from "../components/Reports/ReportPage.jsx";
 import ReportExport from "../components/Reports/ReportExport.jsx";
 import ReportDetails from "../components/Reports/ReportDetails.jsx";
-
+import DepartmentStaff from "../pages/Admin/DepartmentStaff.jsx";
+import Departments from "../pages/Admin/Departments.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import AdminManageStaff from "../pages/Admin/AdminManageStaff.jsx";
 
 const AppRouter = () => {
   const { user } = useAuth();
@@ -100,6 +102,28 @@ const AppRouter = () => {
                 <Route path="/reports/:id" element={<ReportDetails />} />
               </>
             )}
+
+            <Route path="/manage-staff" element={<AdminManageStaff />} />
+            <Route path="/departments" element={<Departments />} />
+            <Route
+              path="/department/pathway"
+              element={<DepartmentStaff department="pathway" />}
+            />
+            <Route
+              path="/department/water"
+              element={<DepartmentStaff department="water" />}
+            />
+            <Route
+              path="/department/garbage"
+              element={<DepartmentStaff department="garbage" />}
+            />
+            <Route
+              path="/department/general"
+              element={<DepartmentStaff department="general" />}
+            />
+
+
+
 
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -9,7 +9,7 @@ const complaintService = {
   getAllComplaints: () => API.get("/complaints"),
   getMyComplaints: () => API.get("/complaints/my"),
   getComplaintById: (id) => API.get(`/complaints/${id}`),
-
+  getUnassignedComplaints: () => API.get("/complaints/unassigned"),
   updateComplaintStatus: (id, data) => API.put(`/complaints/${id}`, data),
   deleteComplaint: (id) => API.delete(`/complaints/${id}`),
   // Get complaint by ID
