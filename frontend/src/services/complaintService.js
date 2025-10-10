@@ -6,14 +6,14 @@ const complaintService = {
       headers: { "Content-Type": "multipart/form-data" },
     }),
 
-  getAllComplaints: () => API.get("/complaints"),
+  // Accept optional query string for filtering by type
+  getAllComplaints: (query = "") => API.get(`/complaints${query}`),
+
   getMyComplaints: () => API.get("/complaints/my"),
   getComplaintById: (id) => API.get(`/complaints/${id}`),
   getUnassignedComplaints: () => API.get("/complaints/unassigned"),
   updateComplaintStatus: (id, data) => API.put(`/complaints/${id}`, data),
   deleteComplaint: (id) => API.delete(`/complaints/${id}`),
-  // Get complaint by ID
-  getComplaintById: (id) => API.get(`/complaints/${id}`),
 };
 
 export default complaintService;
