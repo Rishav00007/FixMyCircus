@@ -1,6 +1,6 @@
 /* frontend/src/components/DepartmentStaff/DepartmentStaff.css */
 .department-staff-container {
-  margin-left: 250px;
+  
   padding: 2rem;
   background: linear-gradient(to bottom right, #f8fafc, #e0f2fe);
   min-height: 100vh;
