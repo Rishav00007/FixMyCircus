@@ -21,6 +21,9 @@ const Navbar = () => {
           <Link to="/contact" className="navbar-link">
             Contact
           </Link>
+          <Link to="/transparency" className="navbar-link">
+            Transparency Portal
+          </Link>
           {!user && (
             <Link to="/login" className="navbar-login">
               Login

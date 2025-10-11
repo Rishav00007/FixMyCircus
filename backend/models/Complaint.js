@@ -59,6 +59,31 @@ const complaintSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+
+  dueDate: {
+    type: Date
+  },
+
+  resolvedAt: {
+    type: Date
+  },
+
+  slaBreached: {
+    type: Boolean,
+    default: false
+  },
+
+  escalated: { 
+    type: Boolean, 
+    default: false 
+  },
+  
+  escalationLevel: { 
+    type: Number, 
+    default: 0 
+  }, // e.g., 0=normal, 1=supervisor, 2=admin
+
+
 });
 
 // Update timestamp when complaint changes

@@ -28,4 +28,7 @@ router.delete("/:id", protect, authorizeRoles("admin"), deleteComplaint);
 router.get("/:id", protect, getComplaintById);
 router.get("/unassigned", getUnassignedComplaints);
 
+//router.get("/public/stats", getPublicStats);
+
+
 export default router;

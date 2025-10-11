@@ -77,3 +77,16 @@
   font-size: 0.75rem;
   color: #9ca3af; /* gray-400 */
 }
+
+
+.complaint-card.overdue {
+  border: 2px solid #ef4444; /* Red border for overdue */
+  background-color: #fff0f0;
+}
+
+.sla-alert {
+  color: #ef4444;
+  font-weight: bold;
+  margin-top: 8px;
+  display: inline-block;
+}

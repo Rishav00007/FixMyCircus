@@ -35,6 +35,12 @@
   background-color: #15803d;
 }
 
+.escalated {
+  background-color: #fff5d1;
+  border-left: 4px solid orange;
+}
+
+
 @media (max-width: 768px) {
   .admin-dashboard {
     padding: 100px 20px 40px 20px; 

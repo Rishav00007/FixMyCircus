@@ -21,12 +21,17 @@ export const createComplaint = asyncHandler(async (req, res) => {
     if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
   }
 
+  // Example: set SLA = 48 hours
+  const slaDuration = 48 * 60 * 60 * 1000; // 48 hours in ms
+  const dueDate = new Date(Date.now() + slaDuration);
+
   const complaint = await Complaint.create({
     citizen: req.user._id,
     type,
     description,
     photo: photoUrl,
     location: { latitude, longitude, address },
+    dueDate,
   });
 
   return res.status(201).json({
@@ -73,6 +78,13 @@ export const updateComplaintStatus = asyncHandler(async (req, res) => {
   if (status) complaint.status = status;
   if (resolutionNote) complaint.resolutionNote = resolutionNote;
   if (assignedTo) complaint.assignedTo = assignedTo;
+
+
+  //modified
+  if (status === "Resolved") {
+      complaint.resolvedAt = new Date();
+  }
+
   await complaint.save();
   if (status) {
     const userEmail = complaint.citizen.email;
@@ -135,3 +147,5 @@ export const getUnassignedComplaints = async (req, res) => {
     res.status(500).json({ message: "Failed to load complaints" });
   }
 };
+
+

@@ -10,9 +10,39 @@ import complaintRoutes from "./routes/complaintRoutes.js";
 import staffRoutes from "./routes/staffRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
 //import analyticsRoutes from "./routes/analyticsRoutes.js";
-//import publicRoutes from "./routes/publicRoutes.js";
+import publicRoutes from "./routes/publicRoutes.js";
 //import { errorHandler } from "./middlewares/errorHandler.js";
+import Complaint from "./models/Complaint.js";
 
+
+
+// setInterval(async () => {
+//   const now = new Date();
+//   await Complaint.updateMany(
+//     { status: { $ne: "Resolved" }, dueDate: { $lt: now } },
+//     { $set: { slaBreached: true } }
+//   );
+//   console.log("SLA check completed");
+// }, 60 * 60 * 1000); // every hour
+
+setInterval(async () => {
+  const now = new Date();
+
+  const overdueComplaints = await Complaint.find({
+    status: { $ne: "Resolved" },
+    dueDate: { $lt: now },
+    escalated: false,
+  });
+
+  for (const comp of overdueComplaints) {
+    comp.escalated = true;
+    comp.escalationLevel = 1;
+    await comp.save();
+
+    // Optional: Send email or notification to admin
+    console.log(`Complaint ${comp._id} escalated.`);
+  }
+}, 60 * 60 * 1000);
 
 
 
@@ -41,7 +71,8 @@ app.use("/api/complaints", complaintRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/reports", reportRoutes);
 //app.use("/api/analytics", analyticsRoutes);
-//app.use("/api/public", publicRoutes);
+app.use("/api/public", publicRoutes);
+
 
 // Root check
 app.get("/", (req, res) => {

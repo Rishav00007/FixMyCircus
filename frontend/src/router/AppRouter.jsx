@@ -27,6 +27,10 @@ import DepartmentStaff from "../pages/Admin/DepartmentStaff.jsx";
 import Departments from "../pages/Admin/Departments.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import AdminManageStaff from "../pages/Admin/AdminManageStaff.jsx";
+import TransparencyPortal from "../pages/TransparencyPortal.jsx";
+
+
+
 
 const AppRouter = () => {
   const { user } = useAuth();
@@ -122,7 +126,7 @@ const AppRouter = () => {
               element={<DepartmentStaff department="general" />}
             />
 
-
+            <Route path="/transparency" element={<TransparencyPortal />} />
 
 
             <Route path="*" element={<NotFound />} />
