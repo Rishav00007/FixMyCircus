@@ -4,14 +4,13 @@ import "./Navbar.css";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
-
 const Navbar = () => {
-    const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          Caravan Chronicle
+          Fix My Circus
         </Link>
         <div className="navbar-links">
           <Link to="/" className="navbar-link">

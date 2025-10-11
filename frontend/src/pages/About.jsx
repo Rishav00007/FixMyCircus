@@ -4,11 +4,11 @@ import "./Pages.css";
 export default function About() {
   return (
     <div className="page-container">
-      <h1 className="page-title">About The Caravan Chronicle</h1>
+      <h1 className="page-title">About The Fix My Circus</h1>
       <p className="page-description">
-        The Caravan Chronicle is a smart grievance tracking system designed to
-        make urban management seamless and efficient. Citizens can report
-        issues, track their status, and ensure timely resolution. Staff and
+        Fix My Circus is a smart grievance tracking system designed to make
+        urban management seamless and efficient. Citizens can report issues,
+        track their status, and ensure timely resolution. Staff and
         administrators can efficiently manage complaints, assign tasks, and
         analyze trends for better decision-making.
       </p>

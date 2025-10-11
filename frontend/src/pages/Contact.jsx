@@ -11,7 +11,7 @@ export default function Contact() {
       </p>
 
       <div className="contact-info">
-        <p>Email: support@caravanchronicle.com</p>
+        <p>Email: support@fixmycircus.com</p>
         <p>Phone: +91 98765 43210</p>
         <p>Address: 123 Circus Street, Cityville, India</p>
       </div>
