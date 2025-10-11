@@ -4,7 +4,7 @@ import API from "../services/api.js";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // ✅ Restore user from localStorage if available
+  //   Restore user from localStorage if available
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
-  // ✅ Keep localStorage in sync with token and user
+  //   Keep localStorage in sync with token and user
   useEffect(() => {
     if (token && user) {
       localStorage.setItem("token", token);

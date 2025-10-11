@@ -1,18 +1,18 @@
 import React from "react";
-import complaintService from "../../services/complaintService.js"; // ✅ Import service
+import complaintService from "../../services/complaintService.js"; //   Import service
 import "./ComplaintCard.css";
 
 export default function ComplaintCard({ complaint, onClick, type }) {
   const { type: cType, description, status, photo, location, createdAt, _id, dueDate, slaBreached } = complaint;
 
   const handleDelete = async (e) => {
-    e.stopPropagation(); // ✅ Prevent card click navigation
+    e.stopPropagation(); //   Prevent card click navigation
     if (!window.confirm("Are you sure you want to delete this complaint?"))
       return;
     try {
-      await complaintService.deleteComplaint(_id); // ✅ Call delete API
+      await complaintService.deleteComplaint(_id); //   Call delete API
       alert("Complaint deleted successfully!");
-      window.location.reload(); // ✅ Simple way to refresh list after deletion
+      window.location.reload(); //   Simple way to refresh list after deletion
     } catch (err) {
       console.error(err);
       alert("Failed to delete complaint");
@@ -52,7 +52,7 @@ export default function ComplaintCard({ complaint, onClick, type }) {
           {type === "admin" && (
             <button
               className="delete-btn"
-              onClick={handleDelete} // ✅ Delete on click
+              onClick={handleDelete} //   Delete on click
             >
               Delete
             </button>

@@ -29,7 +29,7 @@ function LocationMarker({ position, setPosition, onSelect }) {
       setPosition([lat, lng]);
       map.setView([lat, lng], map.getZoom());
 
-      // ✅ Call OpenStreetMap reverse geocode directly (no backend)
+      //   Call OpenStreetMap reverse geocode directly (no backend)
       try {
         const res = await fetch(
           `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=en`
@@ -53,7 +53,7 @@ function LocationMarker({ position, setPosition, onSelect }) {
 const ComplaintMapPicker = ({ onLocationSelect }) => {
   const [position, setPosition] = useState([28.6139, 77.209]); // Default: New Delhi
 
-  // ✅ Auto-detect user location on load
+  //   Auto-detect user location on load
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(

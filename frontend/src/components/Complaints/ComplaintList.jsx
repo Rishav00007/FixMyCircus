@@ -5,13 +5,13 @@ import ComplaintCard from "./ComplaintCard.jsx";
 import "./ComplaintList.css";
 
 export default function ComplaintList({ type }) {
-  // ✅ Added 'type' prop
+  //   Added 'type' prop
   const { complaints, fetchComplaints, loading } = useComplaints();
   const navigate = useNavigate();
   const [filterType, setFilterType] = useState("");
 
   useEffect(() => {
-    fetchComplaints(type); // ✅ Pass type to fetchComplaints
+    fetchComplaints(type); //   Pass type to fetchComplaints
   }, [type]);
 
   const filteredComplaints = filterType
@@ -49,7 +49,7 @@ export default function ComplaintList({ type }) {
               key={c._id}
               complaint={c}
               onClick={() => navigate(`/complaints/${c._id}`)}
-              type={type} // ✅ Pass type so delete button shows for admin
+              type={type} //   Pass type so delete button shows for admin
             />
           ))
         ) : (

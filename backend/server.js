@@ -76,7 +76,7 @@ app.use("/api/public", publicRoutes);
 
 // Root check
 app.get("/", (req, res) => {
-  res.send("✅ Caravan Chronicle Backend is Running...");
+  res.send("  Caravan Chronicle Backend is Running...");
 });
 
 // Global error handler
